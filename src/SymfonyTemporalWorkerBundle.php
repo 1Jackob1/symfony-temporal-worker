@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Buyanov\SymfonyTemporalWorker;
 
 use Buyanov\SymfonyTemporalWorker\Attribute\ActivityInboundInterceptor;
+use Buyanov\SymfonyTemporalWorker\Attribute\WorkflowInboundCallsInterceptor;
 use Buyanov\SymfonyTemporalWorker\DependencyInjection\Compiler\TemporalWorkerCompilerPass;
 use Buyanov\SymfonyTemporalWorker\DependencyInjection\SymfonyTemporalWorkerExtension;
 use ReflectionClass;
@@ -34,6 +35,17 @@ class SymfonyTemporalWorkerBundle extends AbstractBundle
                 ReflectionClass $reflector
             ): void {
                 $definition->addTag(ActivityInboundInterceptor::TAG);
+            }
+        );
+
+        $container->registerAttributeForAutoconfiguration(
+            WorkflowInboundCallsInterceptor::class,
+            static function (
+                ChildDefinition                 $definition,
+                WorkflowInboundCallsInterceptor $attribute,
+                ReflectionClass                 $reflector
+            ): void {
+                $definition->addTag(WorkflowInboundCallsInterceptor::TAG);
             }
         );
     }
